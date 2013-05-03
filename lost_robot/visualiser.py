@@ -1,1 +1,1 @@
-__author__ = 'pawel'
+__author__ = 'Paweł Rychły, Maciej Trojan'
