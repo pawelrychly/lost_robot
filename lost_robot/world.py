@@ -1,14 +1,15 @@
-__author__ = 'Paweł Rychły, Maciej Trojan'
+__author__ = 'Pawel Rychly, Maciej Trojan'
 
-import robot.py
-
+from robot import Robot
 class World:
+
     def __init__(self, width, height):
+        self.is_stopped = False
         self.width = width
         self.height = height
         self.landmarks = []
         self.particles = []
-        self.robot = robot(self)
+        self.robot = Robot(self)
 
     def get_width(self):
         return self.width
@@ -22,4 +23,13 @@ class World:
     def add_landmark(self, landmark):
         self.landmarks.append(landmark)
 
+    def stop(self):
+        self.is_stopped = True
 
+    def run(self):
+        self.is_stopped = False
+        while not self.is_stopped:
+            self.robot.move_forward()
+
+world = World(100,50)
+world.run()
