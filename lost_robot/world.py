@@ -1,6 +1,7 @@
 __author__ = 'Pawel Rychly, Maciej Trojan'
 
 from robot import Robot
+import time
 class World:
 
     def __init__(self, width, height):
@@ -30,6 +31,4 @@ class World:
         self.is_stopped = False
         while not self.is_stopped:
             self.robot.move_forward()
-
-world = World(100,50)
-world.run()
+            time.sleep(2)
