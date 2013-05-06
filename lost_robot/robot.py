@@ -4,6 +4,7 @@ __author__ = 'Pawel Rychly, Maciej Trojan'
 #This code base on Udacity example
 import random
 from math import *
+import scipy.special
 
 class Robot:
 
@@ -49,7 +50,7 @@ class Robot:
     def Gaussian(self, mu, sigma, x):
 
         # calculates the probability of x for 1-dim Gaussian with mean mu and var. sigma
-        return exp(- ((mu - x) ** 2) / (sigma ** 2) / 2.0) / sqrt(2.0 * pi * (sigma ** 2))
+        return exp(- ((x - mu) ** 2) / ((sigma ** 2) * 2.0)) / (sqrt(2.0 * pi) *sigma)
 
     #Method from Udacity example.
     def measurement_prob(self, measurement):
