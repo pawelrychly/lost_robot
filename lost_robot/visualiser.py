@@ -34,6 +34,16 @@ class Board(gtk.DrawingArea):
         self.queue_draw()
         return True
 
+
+    def _draw_direction_arrow(self, cr):
+        arrow_length = 30
+        arrow_x = (math.cos(self.robot.get_direction()) * arrow_length)
+        arrow_y = (math.sin(self.robot.get_direction()) * arrow_length)
+        cr.move_to(0, 0)
+        cr.line_to(arrow_x, arrow_y);
+        cr.move_to(0, 0)
+
+
     def expose(self, widget, event):
 
         position = self.robot.get_real_position()
@@ -41,15 +51,7 @@ class Board(gtk.DrawingArea):
         cr.set_source_rgb(0.7, 0.2, 0.0)
 
         cr.translate(position["x"], position["y"])
-        arrow_length = 30
-        arrow_x = (math.cos(self.robot.get_direction()) * arrow_length)
-        arrow_y = (math.sin(self.robot.get_direction()) * arrow_length)
-        print arrow_x
-        print arrow_y
-        cr.move_to(0, 0)
-        cr.line_to(arrow_x, arrow_y);
-        cr.move_to(0, 0)
-
+        self._draw_direction_arrow(cr)
         cr.arc(0, 0, 5, 0, 2 * math.pi)
 
         cr.stroke_preserve()
