@@ -30,9 +30,10 @@ class World:
 
     def run(self):
         self.is_stopped = False
-        while not self.is_stopped:
-            self.robot.move_forward()
-            time.sleep(2)
+        print "run"
+        #while not self.is_stopped:
+        self.robot.move_forward()
+        #time.sleep(2)
 
     def get_robot(self):
         return self.robot

@@ -26,6 +26,10 @@ class Robot:
             sensors_data.append(dist)
         return sensors_data
 
+    def get_real_position(self):
+        position = {"x":self.x, "y":self.y }
+        return position
+
     def turn(self, angle):
         self.orientation = (self.orientation + float(angle) + random.gauss(0.0, self.turn_noise)) % 2 * pi
 
