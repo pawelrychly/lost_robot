@@ -14,7 +14,7 @@ class Board(gtk.DrawingArea):
         self.robot = world.get_robot()
         self.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color(0, 0, 0))
         self.connect("expose-event", self.expose)
-        glib.timeout_add(100, self.on_timer)
+        glib.timeout_add(10, self.on_timer)
 
 
     def on_key_down(self, event):
@@ -22,9 +22,11 @@ class Board(gtk.DrawingArea):
         key = event.keyval
 
         if key == gtk.keysyms.Left:
+            self.robot.change_direction(0.1)
             print "left"
 
         if key == gtk.keysyms.Right:
+            self.robot.change_direction(-0.1)
             print "right"
 
     def on_timer(self):
@@ -34,10 +36,22 @@ class Board(gtk.DrawingArea):
 
     def expose(self, widget, event):
 
+        position = self.robot.get_real_position()
         cr = widget.window.cairo_create()
         cr.set_source_rgb(0.7, 0.2, 0.0)
-        cr.translate(self.robot.get_real_position()["x"], self.robot.get_real_position()["y"])
+
+        cr.translate(position["x"], position["y"])
+        arrow_length = 30
+        arrow_x = (math.cos(self.robot.get_direction()) * arrow_length)
+        arrow_y = (math.sin(self.robot.get_direction()) * arrow_length)
+        print arrow_x
+        print arrow_y
+        cr.move_to(0, 0)
+        cr.line_to(arrow_x, arrow_y);
+        cr.move_to(0, 0)
+
         cr.arc(0, 0, 5, 0, 2 * math.pi)
+
         cr.stroke_preserve()
         cr.set_source_rgb(0.3, 0.4, 0.6)
         cr.fill()

@@ -7,13 +7,13 @@ from math import *
 
 class Robot:
 
-    __STEP_SIZE = 5
+    __STEP_SIZE = 1
 
     def __init__(self, world):
         self.world = world
         self.x = random.random() * self.world.get_width()
         self.y = random.random() * self.world.get_height()
-        self.orientation = random.random() * 2.0 * pi
+        self.direction = random.random() * 2.0 * pi
         self.forward_noise = 0.0;
         self.turn_noise    = 0.0;
         self.sense_noise   = 0.0;
@@ -30,14 +30,18 @@ class Robot:
         position = {"x":self.x, "y":self.y }
         return position
 
-    def turn(self, angle):
-        self.orientation = (self.orientation + float(angle) + random.gauss(0.0, self.turn_noise)) % 2 * pi
+    def change_direction(self, angle):
+        self.direction = (self.direction + float(angle)) % (2 * pi) #+ random.gauss(0.0, self.turn_noise)
+
+    def get_direction(self):
+        return self.direction
 
     def move_forward(self):
         # move, and add randomness to the motion command
         dist = float(self.__STEP_SIZE) + random.gauss(0.0, self.forward_noise)
-        x = self.x + (cos(self.orientation) * dist) % self.world.get_width()
-        y = self.y + (sin(self.orientation) * dist) % self.world.get_height()
+
+        self.x = (self.x + (cos(self.direction) * dist)) % self.world.get_width()
+        self.y = (self.y + (sin(self.direction) * dist)) % self.world.get_height()
         print self
 
 
@@ -58,6 +62,5 @@ class Robot:
     #    return prob
 
 
-
     def __str__(self):
-        return '[x=%.6s y=%.6s orientation=%.6s]' % (str(self.x), str(self.y), str(self.orientation))
+        return '[x=%.6s y=%.6s direction=%.6s]' % (str(self.x), str(self.y), str(self.direction))
