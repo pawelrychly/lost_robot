@@ -16,7 +16,7 @@ class Board(gtk.DrawingArea):
         self.robot = world.get_robot()
         self.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color(0, 0, 0))
         self.connect("expose-event", self.expose)
-        glib.timeout_add(50, self.on_timer)
+        glib.timeout_add(500, self.on_timer)
 
 
 
@@ -25,13 +25,13 @@ class Board(gtk.DrawingArea):
         key = event.keyval
 
         if key == gtk.keysyms.Left:
-            self.robot.change_direction(0.1)
-            self.particle_filter.next_step(0.1)
+            self.robot.change_direction(-0.1)
+            #self.particle_filter.next_step(0.1)
             print "left"
 
         if key == gtk.keysyms.Right:
-            self.robot.change_direction(-0.1)
-            self.particle_filter.next_step(-0.1)
+            self.robot.change_direction(0.1)
+            #self.particle_filter.next_step(-0.1)
             print "right"
 
     def on_timer(self):
@@ -72,10 +72,10 @@ class Board(gtk.DrawingArea):
         for particle in particles:
             cr.save()
             #self._draw_circle(cr, particle.get_position())
-
+            print particle.get_probability()
             cr.translate(particle.get_position()["x"], particle.get_position()["y"])
             cr.move_to(0, 0)
-            cr.arc(0, 0, 1, 0, 2 * math.pi)
+            cr.arc(0, 0, particle.get_probability() * 11**24, 0, 2 * math.pi)
             cr.stroke_preserve()
             cr.move_to(0, 0)
             cr.set_source_rgb(0.4, 0.8, 0.8)

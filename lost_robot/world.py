@@ -6,7 +6,7 @@ import random
 
 class World:
 
-    __NUM_OF_LANDMARKS = 3
+    __NUM_OF_LANDMARKS = 10
 
     def __init__(self, width, height):
         self.is_stopped = False
@@ -37,6 +37,11 @@ class World:
         self.is_stopped = True
 
     def run(self):
+        para = 10
+        a = random.randint(0,100)
+        if a < para:
+            b = (random.random()*2 - 1) / 5
+            self.robot.change_direction(b)
         self.robot.move_forward()
 
     def get_robot(self):

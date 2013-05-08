@@ -6,7 +6,7 @@ from copy import deepcopy
 
 class ParticleFilter:
 
-    __NUM_OF_PARTICLES = 50
+    __NUM_OF_PARTICLES = 200
 
     def __init__(self, world):
         self.world = world
@@ -37,13 +37,15 @@ class ParticleFilter:
         return self.particles
 
     def next_step(self, turn):
+
         robot_sense_data = self.world.get_robot().sense()
+        turn = float(random.randint(-1,1))
+        turn /= 10
         probabilities = []
         for particle in self.particles:
-            if turn is 0:
-                particle.move_forward()
-            else:
-                particle.change_direction(turn)
-
-            probabilities.append(particle.measure_probability(robot_sense_data))
+            particle.move_forward()
+            particle.change_direction(turn)
+            prob = particle.measure_probability(robot_sense_data)
+            particle.set_probability(prob)
+            probabilities.append(prob)
         self.resampling(probabilities)

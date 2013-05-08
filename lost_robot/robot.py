@@ -7,7 +7,7 @@ from math import *
 
 class Robot:
 
-    __STEP_SIZE = 5
+    __STEP_SIZE = 1
 
     def __init__(self, world, f_noise = float(0), d_noise = float(0), s_noise = float(0)):
         self.world = world
@@ -17,6 +17,7 @@ class Robot:
         self.forward_noise = f_noise;
         self.direction_noise = d_noise;
         self.sense_noise = s_noise;
+        self.probability = 0
 
     def sense(self):
         sensors_data = []
@@ -26,6 +27,12 @@ class Robot:
             dist += random.gauss(0.0, self.sense_noise)
             sensors_data.append(dist)
         return sensors_data
+
+    def get_probability(self):
+        return self.probability
+
+    def set_probability(self, prob):
+        self.probability = prob
 
     def get_position(self):
         position = {"x":self.x, "y":self.y }
